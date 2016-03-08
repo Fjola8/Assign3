@@ -7,11 +7,21 @@ angular.module("project3App", ["ngRoute", "ui.bootstrap", "sharedServices", "pas
 		templateUrl: "components/sellers/index.html"
 	});
 
-/*	$translateProvider.useStaticFilesLoader({
+	$translateProvider.fallbackLanguage('en');
+
+	$translateProvider.registerAvailableLanguageKeys(['en', 'is'],{
+		'en_*':'en',
+		'is_*':'is'
+	});
+
+	$translateProvider.useStaticFilesLoader({
 		prefix: "lang_",
 		suffix: ".json"
 	});
-	$translateProvider.use("is");
-	moment.locale("is"); //á þetta að vera með?? */
+
+	$translateProvider.preferredLanguage('is');
+
+//	$translateProvider.use("is");
+//	moment.locale("is"); //á þetta að vera með?? */
 	//við þurfum að kynna okkur betur hvernig angular translate virkar
 });
