@@ -1,4 +1,4 @@
-<table>
+<!--<table>
     <thead>
         <tr>
             <th translate="sellers.Name"></th>
@@ -12,7 +12,23 @@
         </tr>
     </tbody>
     <tr></tr>
-</table>
+</table>-->
 
-<button type="button" value="English" ng-click="changeLanguage('en')">English</button>
-<button type="button" value="Íslenska" ng-click="changeLanguage('is')">Íslenska</button>
+<link rel="stylesheet" href="sellers.less">
+
+<body>
+
+<h2>Söluaðilar</h2>
+
+    <div class="box"> 
+        <div class="name">
+            <p translate="sellers.Name"></p>
+            <div ng-repeat="s in sellers"> {{s.name}} </div>
+        </div>
+
+        <div class="category">
+            <p translate="sellers.Category"></p>
+            <div ng-repeat="s in sellers"> {{s.category}} </div>
+        </div>
+    </div>
+</body>
