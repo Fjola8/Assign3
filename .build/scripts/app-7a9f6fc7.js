@@ -1,11 +1,19 @@
 "use strict";
 
-angular.module("project3App", ["ngRoute", "ui.bootstrap", "sharedServices"])
-.config(function ($routeProvider) {
+angular.module("project3App", ["ngRoute", "ui.bootstrap", "sharedServices", "pascalprecht.translate"])
+.config(function ($routeProvider, $translateProvider) {
 	$routeProvider.when("/", {
 		controller: "SellersController",
 		templateUrl: "components/sellers/index.html"
 	});
+
+/*	$translateProvider.useStaticFilesLoader({
+		prefix: "lang_",
+		suffix: ".json"
+	});
+	$translateProvider.use("is");
+	moment.locale("is"); //á þetta að vera með?? */
+	//við þurfum að kynna okkur betur hvernig angular translate virkar
 });
 
 "use strict";
@@ -338,6 +346,8 @@ function AppResource() {
 		createSeller(4, "Leirkeraverkstæði Lomma", "Keramik", "https://upload.wikimedia.org/wikipedia/commons/6/67/Potter_at_work,_Jaura,_India.jpg")
 	];
 
+	var nextID = 5;
+
 	var mockProducts = [
 		createProduct(1,  1, "Ullarvettlingar",  1899, 500, 12, "http://i.imgur.com/MZOmRnH.jpg"),
 		createProduct(1,  2, "Ullarsokkar",      2199, 488,  9, "http://i.imgur.com/0XKznD4.jpg?1"),
@@ -406,6 +416,7 @@ function AppResource() {
 
 		addSeller: function addSeller(seller) {
 			if (mockResource.successAddSeller) {
+				seller.id = nextID++;
 				mockSellers.push(seller);
 			}
 			return mockHttpPromise(mockResource.successAddSeller, seller);
@@ -472,16 +483,35 @@ function AppResource() {
 
 	return mockResource;
 });
+
 "use strict";
 
 angular.module("project3App").controller("SellersController",
-function SellersController($scope, AppResource) {
+function SellersController($scope, AppResource, centrisNotify) {
 	// TODO: load data from AppResource! Also, add other methods, such as to
 	// add/update sellers etc.
 
-	//skilar promise
-	AppResource.getSellers().sucess(function(sellers){
-
+	//getSellers skilar okkur svari sem er object og fallið keyrist þegar success
+	//gögnin (sellers) kemur frá servernum
+	AppResource.getSellers().success(function(sellers){
+		$scope.sellers = sellers; //listi af sellers sem við setjum í scope
 	});
 
+/*
+	$scope.onAddSeller = function onAddSeller() {
+		var peterSellers = {
+			name: "Peter",
+			category: "Movies",
+			imagePath: ""
+		};
+		//kalla svoss í fake-bakendann:
+		AppResource.addSeller(peterSellers).sucess(function(seller) {
+			var newSeller = seller;
+		}).error(function() {
+			/*í src->shared->notify->centrisNotify.js(notar toastr bakvið tjöldin)
+			tek inn centrisNotify inní controllerinn og get svo nálgast error message
+			og á því tungumáli sem notnadinn er að nota, með því að sækja í sellers_en_EN.js*/
+/*			centrisNotify.error("sellers.Message.SaveFailed");
+		});
+	}; */
 });
